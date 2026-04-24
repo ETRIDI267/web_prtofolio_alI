@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portofolio - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 pb-20">
+
+    <div class="max-w-4xl mx-auto py-10 px-4">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-extrabold text-indigo-700">Admin Dashboard 🚀</h1>
+            <a href="index.html" class="text-indigo-600 font-bold hover:underline">Lihat Web &rarr;</a>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm mb-8 border-l-4 border-indigo-500">
+            <h2 class="text-lg font-bold mb-4 text-indigo-700 underline">1. Profil Kamu</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="inputNama" placeholder="Nama Lengkap" class="p-2 border rounded-lg outline-none focus:ring-2 focus:ring-indigo-400">
+                <div class="flex flex-col">
+                    <label class="text-xs text-gray-500 mb-1">Ganti Foto Profil:</label>
+                    <input type="file" id="fileFoto" accept="image/*" class="p-1 border rounded-lg">
+                </div>
+            </div>
+            <button onclick="updateProfil()" class="mt-4 bg-indigo-600 text-white px-5 py-2 rounded-lg w-full font-bold hover:bg-indigo-700 transition">Update Profil</button>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm mb-8 border-l-4 border-green-500">
+            <h2 class="text-lg font-bold mb-4 text-green-700 underline">2. Tambah Sertifikat / Web Baru</h2>
+            <form id="portfolioForm" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <select id="kategori" class="p-2 border rounded-lg">
+                        <option value="Proyek Web">Proyek Web</option>
+                        <option value="Sertifikat Kampus">Sertifikat Kampus</option>
+                    </select>
+                    <input type="text" id="judul" required placeholder="Judul Proyek/Sertifikat" class="p-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-400">
+                </div>
+                <label class="block text-sm text-gray-500">Pilih Gambar Sertifikat/Screenshot Web:</label>
+                <input type="file" id="fileItem" accept="image/*" required class="w-full p-1 border rounded-lg">
+                <button type="submit" class="w-full bg-green-600 text-white py-2 rounded-lg font-bold hover:bg-green-700 transition">Simpan ke Portofolio</button>
+            </form>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm mb-8 border-l-4 border-orange-500">
+            <h2 class="text-lg font-bold mb-4 text-orange-700 underline">3. Tambah Foto Kegiatan Kampus</h2>
+            <form id="kegiatanForm" class="space-y-4">
+                <input type="text" id="judulKegiatan" required placeholder="Keterangan Foto (Misal: Belajar di Lab)" class="w-full p-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-400">
+                <label class="block text-sm text-gray-500">Pilih Foto Kegiatan Kamu:</label>
+                <input type="file" id="fileKegiatan" accept="image/*" required class="w-full p-1 border rounded-lg">
+                <button type="submit" class="w-full bg-orange-600 text-white py-2 rounded-lg font-bold hover:bg-orange-700 transition">Tambah Foto Kegiatan</button>
+            </form>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <div class="p-4 bg-gray-50 border-b font-bold text-gray-700">Daftar Item & Kegiatan</div>
+            <table class="w-full text-left">
+                <thead class="bg-gray-100 uppercase text-xs">
+                    <tr>
+                        <th class="px-6 py-3">Judul/Kegiatan</th>
+                        <th class="px-6 py-3">Kategori</th>
+                        <th class="px-6 py-3 text-right">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="listData" class="divide-y divide-gray-100"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi pembantu untuk mengubah File ke Teks (Base64)
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // LOGIKA PROFIL
+        async function updateProfil() {
+            const nama = document.getElementById('inputNama').value;
+            const fileInput = document.getElementById('fileFoto').files[0];
+            
+            if(nama) localStorage.setItem('userName', nama);
+            if(fileInput) {
+                const base64 = await fileToBase64(fileInput);
+                localStorage.setItem('userFoto', base64);
+            }
+            alert('Profil Berhasil Diperbarui!');
+        }
+
+        // LOGIKA TAMBAH ITEM (PROYEK/SERTIFIKAT)
+        const portfolioForm = document.getElementById('portfolioForm');
+        portfolioForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fileInput = document.getElementById('fileItem').files[0];
+            const base64Gambar = await fileToBase64(fileInput);
+
+            const newItem = {
+                judul: document.getElementById('judul').value,
+                kategori: document.getElementById('kategori').value,
+                link: base64Gambar,
+                tanggal: new Date().toLocaleDateString('id-ID')
+            };
+
+            const data = JSON.parse(localStorage.getItem('myPortfolioData') || '[]');
+            data.push(newItem);
+            localStorage.setItem('myPortfolioData', JSON.stringify(data));
+            
+            portfolioForm.reset();
+            loadItems();
+            alert('Data Portofolio Berhasil Disimpan!');
+        });
+
+        // LOGIKA TAMBAH KEGIATAN KAMPUS
+        const kegiatanForm = document.getElementById('kegiatanForm');
+        kegiatanForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fileInput = document.getElementById('fileKegiatan').files[0];
+            const base64Gambar = await fileToBase64(fileInput);
+
+            const newItem = {
+                judul: document.getElementById('judulKegiatan').value,
+                kategori: 'Foto Kampus',
+                link: base64Gambar,
+                tanggal: new Date().toLocaleDateString('id-ID')
+            };
+
+            const data = JSON.parse(localStorage.getItem('myPortfolioData') || '[]');
+            data.push(newItem);
+            localStorage.setItem('myPortfolioData', JSON.stringify(data));
+            
+            kegiatanForm.reset();
+            loadItems();
+            alert('Foto Kegiatan Kampus Berhasil Ditambahkan!');
+        });
+
+        function loadItems() {
+            const data = JSON.parse(localStorage.getItem('myPortfolioData') || '[]');
+            const container = document.getElementById('listData');
+            container.innerHTML = data.map((item, index) => `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-6 py-4 font-medium text-gray-700">${item.judul}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs font-bold rounded-full 
+                        ${item.kategori === 'Foto Kampus' ? 'bg-orange-100 text-orange-600' : 
+                          item.kategori === 'Proyek Web' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'}">
+                            ${item.kategori}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <button onclick="hapusItem(${index})" class="text-red-500 font-bold hover:text-red-700 transition">Hapus</button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Load nama lama ke input
+            if(localStorage.getItem('userName')) {
+                document.getElementById('inputNama').value = localStorage.getItem('userName');
+            }
+        }
+
+        window.hapusItem = (index) => {
+            if(confirm('Yakin ingin menghapus item ini?')) {
+                let data = JSON.parse(localStorage.getItem('myPortfolioData') || '[]');
+                data.splice(index, 1);
+                localStorage.setItem('myPortfolioData', JSON.stringify(data));
+                loadItems();
+            }
+        }
+
+        window.onload = loadItems;
+    </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Pribadi | Muhamad Saifullah Ali</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        .bg-dark { background-color: #050505; }
+        .glass {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-blue { box-shadow: 0 0 30px rgba(59, 130, 246, 0.2); }
+        .text-glow { text-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+    </style>
+</head>
+<body class="bg-dark text-slate-200 font-sans tracking-tight">
+
+    <header class="min-h-screen flex flex-col items-center justify-center relative px-6 overflow-hidden">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-emerald-600/10 blur-[100px] rounded-full"></div>
+
+        <div class="relative mb-8 group">
+            <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-emerald-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+            <img id="fotoProfil" src="https://via.placeholder.com/150" alt="Profil" 
+                 class="relative w-40 h-40 rounded-full border-2 border-white/10 p-1 object-cover shadow-2xl">
+        </div>
+
+        <h1 class="text-5xl md:text-7xl font-black text-white mb-4 text-center tracking-tighter">
+            Halo, Saya <span id="namaUser" class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">User</span>
+        </h1>
+        <p class="text-slate-400 text-lg md:text-xl mb-10 text-center max-w-2xl leading-relaxed">
+            Mahasiswa IT & Fullstack Developer. <br class="hidden md:block"> 
+            Fokus pada pembuatan web yang solutif, modern, dan fungsional.
+        </p>
+        
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="#proyek-section" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-2xl font-bold transition-all shadow-lg shadow-blue-600/20 flex items-center">
+                <i class="fas fa-code mr-2"></i> Proyek
+            </a>
+            <a href="#sertifikat-section" class="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-2xl font-bold transition-all shadow-lg shadow-emerald-600/20 flex items-center">
+                <i class="fas fa-certificate mr-2"></i> Sertifikat
+            </a>
+            <a href="#galeri-section" class="glass hover:bg-white/10 text-white px-8 py-3 rounded-2xl font-bold transition-all flex items-center">
+                <i class="fas fa-camera mr-2"></i> Kegiatan
+            </a>
+        </div>
+    </header>
+
+    <section id="proyek-section" class="max-w-6xl mx-auto py-24 px-6">
+        <div class="flex items-center gap-4 mb-12">
+            <div class="h-10 w-2 bg-blue-500 rounded-full"></div>
+            <h2 class="text-4xl font-black text-white uppercase tracking-tighter">Proyek Web</h2>
+        </div>
+        <div id="gridProyek" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-center md:text-left">
+            </div>
+    </section>
+
+    <section id="sertifikat-section" class="max-w-6xl mx-auto py-24 px-6 bg-gradient-to-b from-transparent via-emerald-900/5 to-transparent">
+        <div class="flex items-center gap-4 mb-12">
+            <div class="h-10 w-2 bg-emerald-500 rounded-full"></div>
+            <h2 class="text-4xl font-black text-white uppercase tracking-tighter">Sertifikat</h2>
+        </div>
+        <div id="gridSertifikat" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
+    </section>
+
+    <section id="galeri-section" class="max-w-6xl mx-auto py-24 px-6">
+        <div class="flex items-center gap-4 mb-12">
+            <div class="h-10 w-2 bg-orange-500 rounded-full"></div>
+            <h2 class="text-4xl font-black text-white uppercase tracking-tighter">Album</h2>
+        </div>
+        <div id="gridGaleri" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            </div>
+    </section>
+
+    <footer class="py-20 text-center border-t border-white/5">
+        <p class="text-slate-500 mb-4">&copy; 2026 Muhamad Saifullah Ali. Dibuat dengan Tailwind CSS.</p>
+        <div class="flex justify-center gap-6 mb-8">
+            <a href="https://github.com/saifullahali" class="text-2xl text-slate-400 hover:text-white transition"><i class="fab fa-github"></i></a>
+            <a href="#" class="text-2xl text-slate-400 hover:text-white transition"><i class="fab fa-linkedin"></i></a>
+            <a href="admin.html" class="text-2xl text-slate-400 hover:text-indigo-400 transition"><i class="fas fa-user-shield"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        function loadPortfolio() {
+            const gridProyek = document.getElementById('gridProyek');
+            const gridSertifikat = document.getElementById('gridSertifikat');
+            const gridGaleri = document.getElementById('gridGaleri');
+            const namaSpan = document.getElementById('namaUser');
+            const fotoImg = document.getElementById('fotoProfil');
+
+            // 1. Load Identitas
+            const savedNama = localStorage.getItem('userName');
+            const savedFoto = localStorage.getItem('userFoto');
+            if(savedNama) namaSpan.innerText = savedNama;
+            if(savedFoto) fotoImg.src = savedFoto;
+
+            // 2. Ambil Semua Data
+            const data = JSON.parse(localStorage.getItem('myPortfolioData') || '[]');
+
+            // Filter Data
+            const proyek = data.filter(item => item.kategori === 'Proyek Web');
+            const sertifikat = data.filter(item => item.kategori === 'Sertifikat Kampus');
+            const galeri = data.filter(item => item.kategori === 'Foto Kampus');
+
+            // Render Proyek
+            gridProyek.innerHTML = proyek.length > 0 ? proyek.map(item => cardTemplate(item, 'blue')).join('') : `<p class="text-slate-600 italic">Belum ada proyek diunggah.</p>`;
+
+            // Render Sertifikat
+            gridSertifikat.innerHTML = sertifikat.length > 0 ? sertifikat.map(item => cardTemplate(item, 'emerald')).join('') : `<p class="text-slate-600 italic">Belum ada sertifikat diunggah.</p>`;
+
+            // Render Galeri (Style Khusus)
+            gridGaleri.innerHTML = galeri.length > 0 ? galeri.map(item => `
+                <div class="relative aspect-square overflow-hidden rounded-xl group cursor-pointer glass">
+                    <img src="${item.link}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end">
+                        <p class="text-white text-xs font-bold">${item.judul}</p>
+                        <p class="text-white/60 text-[10px]">${item.tanggal}</p>
+                    </div>
+                </div>
+            `).join('') : `<p class="col-span-full text-slate-600 italic">Belum ada foto kegiatan.</p>`;
+        }
+
+        function cardTemplate(item, color) {
+            const borderColors = { blue: 'hover:border-blue-500/50', emerald: 'hover:border-emerald-500/50' };
+            const textColors = { blue: 'text-blue-400', emerald: 'text-emerald-400' };
+
+            return `
+                <div class="glass rounded-3xl overflow-hidden group transition-all duration-500 hover:-translate-y-2 ${borderColors[color]}">
+                    <div class="h-52 overflow-hidden relative">
+                        <img src="${item.link}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 backdrop-blur-md rounded-full text-[10px] font-bold text-white uppercase">
+                            ${item.kategori}
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:${textColors[color]} transition-colors">${item.judul}</h3>
+                        <p class="text-sm text-slate-500 mb-6 flex items-center">
+                            <i class="far fa-calendar-alt mr-2"></i> ${item.tanggal}
+                        </p>
+                        <a href="${item.link}" target="_blank" class="inline-flex items-center ${textColors[color]} font-bold text-sm hover:gap-3 transition-all">
+                            LIHAT DETAIL <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.onload = loadPortfolio;
+    </script>
+</body>
+</html>
